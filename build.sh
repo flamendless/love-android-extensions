@@ -1,4 +1,9 @@
-ks=""
+#!/usr/bin/env bash
+
+set -euf -o pipefail
+set -x
+
+ks="ghr.keystore"
 
 sign_apk () {
     sudo apksigner sign --ks "$ks" app/build/outputs/apk/embedNoRecord/release/app-embed-noRecord-release-unsigned.apk
@@ -19,5 +24,6 @@ aab () {
 if [ "$#" -eq 0 ]; then
     echo "wrong usage"
 else
-	"$1" "$@"
+    cp ~/GoingHome/release/GoingHomeRevisited.love app/src/embed/assets/game.love
+    "$1" "$@"
 fi
