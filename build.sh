@@ -7,11 +7,11 @@ ks="ghr.keystore"
 
 checkver () {
     echo "Checking version..."
-    local gameversion=$(rg -S "MOBILE_VERSION" ${GHPATH}/game/main.lua -m 1 | cut -d '=' -f 2 | sed -E 's/.*"([0-9]+)d".*/\1/' | xargs)
-    local gradleversion=$(rg -S "app.version_code" gradle.properties -m 1 | cut -d '=' -f 2 | xargs)
-    echo "Found game version '${gameversion}', gradle version '${gradleversion}'"
+    local gameversion=$(rg -S "VERSION" ${GHPATH}/game/main.lua -m 1 | cut -d '=' -f 2 | sed -E 's/\r//g' | xargs)
+    local apkversion=$(rg -S "app.version_name" gradle.properties -m 1 | cut -d '=' -f 2 | xargs)
+    echo "Found game version '${gameversion}', gradle version 'v${apkversion}'"
 
-    if [ ! "${gameversion}" == "${gradleversion}" ]; then
+    if [ ! "${gameversion}" == "v${apkversion}" ]; then
         echo "Version mismatch. Exiting..."
         exit 1
     fi
